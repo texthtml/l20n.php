@@ -1,0 +1,29 @@
+{
+    "name": "l20n.php",
+    "version": "0.0.0",
+    "description": "",
+    "main": "gulpfile.js",
+    "dependencies": {
+    },
+    "devDependencies": {
+        "gulp": "~3.5.2",
+        "gulp-notify": "~1.0.0-beta",
+        "gulp-phpspec": "~0.1.0",
+        "gulp-watch": "~0.5.0"
+    },
+    "scripts": {
+        "test": "gulp"
+    },
+    "keywords": [
+        "l20n",
+        "l10n",
+        "l12n",
+        "i18n"
+    ],
+    "author": "Mathieu Rochette <mathieu@texthtml.net>",
+    "license": "aGPL3",
+    "repository": {
+        "type": "git",
+        "url": "git://texthtml.net/l20n.php"
+    }
+}

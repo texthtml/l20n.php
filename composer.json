@@ -1,0 +1,14 @@
+{
+    "require": {
+        "doctrine/dbal": "*",
+        "doctrine/orm": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "th\\l20n\\": "src"
+        }
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0@dev"
+    }
+}
