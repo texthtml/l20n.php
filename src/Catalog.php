@@ -5,6 +5,7 @@ namespace th\l20n;
 class Catalog
 {
     private $parser;
+    private $compiler;
 
     private $resources = [];
 
@@ -40,14 +41,6 @@ class Catalog
 
             $imports = $this->compiler->compile($ast);
             $this->resources = array_merge($this->resources, $imports);
-        }
-    }
-
-    protected function registerEntry($entry)
-    {
-        if ($entry->getId() === '#entity') {
-            $id = $entry->getChild(0)->getValueValue();
-            $this->entities[$id] = new Entity($entry);
         }
     }
 }
