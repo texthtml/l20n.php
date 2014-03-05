@@ -4,8 +4,7 @@ namespace th\l20n\Llk;
 
 use th\l20n\Parser as l20nParser;
 use Hoa\File\Read as FileReader;
-use Hoa\Compiler\Llk\Llk as Compiler;
-use Hoa\Compiler\Llk\TreeNode as AST;
+use Hoa\Compiler\Llk\Llk as LlkCompiler;
 
 class Parser implements l20nParser
 {
@@ -15,7 +14,7 @@ class Parser implements l20nParser
     public function ppCompiler()
     {
         if ($this->ppCompiler === null) {
-            $this->ppCompiler = Compiler::load(new FileReader('lol.pp'));
+            $this->ppCompiler = LlkCompiler::load(new FileReader('lol.pp'));
         }
 
         return $this->ppCompiler;

@@ -10,13 +10,13 @@ class IntlLocaleNegotiator implements LocaleNegotiator
         $defaultLocale
     ) {
         $validLocales = [];
-        
+
         foreach ($requestedLocales as $requestedLocale) {
             $validLocales += array_filter($availableLocales, function ($availableLocale) use ($requestedLocale) {
                 return locale_filter_matches($availableLocale, $requestedLocale);
             });
         }
-        
+
         return empty($validLocales) ? [$defaultLocale] : array_values(array_unique($validLocales));
     }
 }
