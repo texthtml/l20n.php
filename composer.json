@@ -1,14 +1,20 @@
 {
-    "require": {
-        "doctrine/dbal": "*",
-        "doctrine/orm": "*"
-    },
     "autoload": {
         "psr-4": {
             "th\\l20n\\": "src"
+        },
+        "psr-0": {
+            "spec": ""
         }
     },
+    "minimum-stability": "dev",
+    "require": {
+        "hoa/compiler": "*"
+    },
     "require-dev": {
-        "phpspec/phpspec": "~2.0@dev"
+        "phpspec/phpspec": "~2.0@dev",
+        "hoa/router": "*",
+        "hoa/dispatcher": "*",
+        "hoa/console": "*"
     }
 }
