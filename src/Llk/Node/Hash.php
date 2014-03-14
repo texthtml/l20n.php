@@ -26,10 +26,11 @@ class Hash implements Node
 
     public function evaluate(Catalog $catalog, Array $data)
     {
-        return function (Array $indexes = null) use ($catalog, $data) {
-            return function (Array $keys = null) use ($catalog, $data, $indexes) {
-                if ($keys !== null) {
-                    $indexes = $keys;
+        return function (Array $defaultIndexes = null) use ($catalog, $data) {
+            return function (Array $requestedIndexes = null) use ($catalog, $data, $defaultIndexes) {
+                $indexes = $defaultIndexes?:[];
+                if ($requestedIndexes !== null) {
+                    $indexes = $requestedIndexes;
                 }
                 $index = array_shift($indexes);
 
