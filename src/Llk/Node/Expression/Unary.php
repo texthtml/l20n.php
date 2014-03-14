@@ -20,6 +20,8 @@ class Unary implements Node
         if ($operatorAST->isToken()) {
             $operatorToken = new Token($operatorAST);
 
+            $this->operator = $operatorToken->value();
+
             $memberAST = array_shift($children);
         } else {
             $memberAST = $operatorAST;
