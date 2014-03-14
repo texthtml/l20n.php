@@ -2,6 +2,8 @@
 
 %skip comment_ \/\*.*\*\/
 
+%token _expander \}\} -> __shift__
+
 %token angle_               <
 %token _angle               >
 %token bracket_             \[
@@ -39,26 +41,32 @@
 %token literal \-?(0|[1-9]\d*)(\.\d+)?([eE][\+\-]?\d+)?
 
 %token singlequote_                '                           -> single_string
-%token single_string:_singlequote  '                           -> default
+%token single_string:_singlequote  '                           -> __shift__
+%token single_string:expander_     \{\{                        -> default
 %token single_string:escaped       \\(['"\\]|\{\{)
-%token single_string:string        [^'\\]+
+%token single_string:string        ([^'\\\{]|\{[^'\\\{])+
 
 %token doublequote_                "                           -> double_string
-%token double_string:_doublequote  "                           -> default
+%token double_string:_doublequote  "                           -> __shift__
+%token double_string:expander_     \{\{                        -> default
 %token double_string:escaped       \\(['"\\]|\{\{)
-%token double_string:string        [^"\\]+
+%token double_string:string        ([^"\\\{]|\{[^"\\\{])+
 
 %token tripledoublequote_                      """       -> tripledouble_string
-%token tripledouble_string:_tripledoublequote  """       -> default
+%token tripledouble_string:_tripledoublequote  """       -> __shift__
+%token tripledouble_string:expander_           \{\{      -> default
 %token tripledouble_string:escaped             \\(['"\\]|\{\{)
 %token tripledouble_string:string              [^"\\]+
 
 %token triplesinglequote_                      '         -> triplesingle_string
-%token triplesingle_string:_triplesinglequote  '         -> default
+%token triplesingle_string:_triplesinglequote  '         -> __shift__
+%token triplesingle_string:expander_           \{\{      -> default
 %token triplesingle_string:escaped             \\(['"\\]|\{\{)
 %token triplesingle_string:string              [^'\\]+
 
 %token identifier      [_a-zA-Z]\w*
+
+
 
 #lol:
     entry()*
@@ -83,9 +91,11 @@ _quote:
 
 #string:
     quote_()
-    ( <escaped> | <string> )
-    ( ( <escaped> | <string> ) #concatenation )*
+    ( <escaped> | expander() | <string> )*
     _quote()
+
+#expander:
+    ::expander_:: expression() ::_expander::
 
 #hash:
     ::brace_:: hashItem() ( ::comma:: hashItem() )* ::comma::? ::_brace::
@@ -94,27 +104,30 @@ _quote:
     <default>? <identifier> ::colon:: value()
 
 #attributes:
-    ::parenthesis_:: ::_parenthesis::
+    keyValuePair()+
 
-expression:
+#keyValuePair:
+    <identifier> index()? ::colon:: value()
+
+#expression:
     conditional_expression()
 
-#conditional_expression:
-    logical_expression() ( ::question_mark:: expression() ::colon:: expression() )?
+conditional_expression:
+    logical_expression() ( ::question_mark:: expression() ::colon:: expression() #conditional_expression )?
 
-#logical_expression:
-    binary_expression() ( ( <or> | <and> ) logical_expression() )?
+logical_expression:
+    binary_expression() ( ( <or> | <and> ) logical_expression() #logical_expression )?
 
-#binary_expression:
-    unary_expression() ( (<equal> | <not_equal> | <less> | <more> | <less_or_equal> | <more_or_equal> | <plus> | <minus> | <times> | <fraction> | <mod> ) binary_expression() )?
+binary_expression:
+    unary_expression() ( (<equal> | <not_equal> | <less> | <more> | <less_or_equal> | <more_or_equal> | <plus> | <minus> | <times> | <fraction> | <mod> ) binary_expression() #binary_expression )?
 
-#unary_expression:
-    ( ( <plus> | <minus> | <not> ) unary_expression() ) | member_expression()
+unary_expression:
+    ( ( <plus> | <minus> | <not> ) unary_expression() #unary_expression ) | member_expression()
 
-#member_expression:
-    parenthesis_expression() ( member_expression_part() )*
+member_expression:
+    parenthesis_expression() ( member_expression_part() #member_expression )*
 
-#member_expression_part:
+member_expression_part:
     call_expression() | property_expression() | attr_expression()
 
 #call_expression:
@@ -129,10 +142,10 @@ expression:
 parenthesis_expression:
     ::parenthesis_:: expression() ::_parenthesis:: | primary_expression()
 
-primary_expression:
+#primary_expression:
     <literal> | value() | identifier_expression()
 
-identifier_expression:
+#identifier_expression:
     <identifier> | variable() | globals_expression() | <this>
 
 #variable:

@@ -14,9 +14,18 @@ trait Utils
         $id = $ast->getId();
         if (!in_array($id, $ids)) {
             $expectedIds = implode("', '", $ids);
-            throw new \Exception("Error, unexpected '$id', expecting '$expectedIds'");
+            $className = get_class();
+            throw new \Exception("$className: Error, unexpected '$id', expecting '$expectedIds'");
         }
 
         return $id;
+    }
+
+    private function build(TreeNode $ast)
+    {
+        $this->expect($ast, array_keys(static::$idToClassName));
+
+        $className = '\\th\\l20n\\Llk\\Node\\'.static::$idToClassName[$ast->getId()];
+        return new $className($ast);
     }
 }

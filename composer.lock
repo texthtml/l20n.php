@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b08ce7901726454c627fc9c1ac3ea9c3",
+    "hash": "24f036eab3006f59fcd0ef1325372a9d",
     "packages": [
         {
             "name": "hoa/compiler",

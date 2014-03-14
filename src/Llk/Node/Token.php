@@ -3,6 +3,7 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\Llk\Node;
 
 class Token
 {

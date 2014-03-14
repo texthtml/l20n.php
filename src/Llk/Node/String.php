@@ -3,11 +3,11 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\Llk\Node;
+use th\l20n\Catalog;
 
-class String
+class String implements Node
 {
-    use Utils;
-
     private $parts;
 
     public function __construct(TreeNode $ast)
@@ -17,18 +17,18 @@ class String
                 return $stringPart->getValueValue();
             }
 
-            return $stringPart;
+            return new Expander($stringPart);
         }, $ast->getChildren());
     }
 
-    public function get(Array $data = [])
+    public function evaluate(Catalog $catalog, Array $data)
     {
-        return array_reduce($this->parts, function ($prefix, $part) use ($data) {
+        return array_reduce($this->parts, function ($prefix, $part) use ($catalog, $data) {
             if (is_string($part)) {
                 return $prefix.$part;
             }
 
-            throw new \Exception("Error Processing Request", 1);
+            return $prefix.$part->evaluate($catalog, $data);
 
         }, '');
     }

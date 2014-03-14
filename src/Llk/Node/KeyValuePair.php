@@ -6,12 +6,13 @@ use Hoa\Compiler\Llk\TreeNode;
 use th\l20n\Llk\Node;
 use th\l20n\Catalog;
 
-class Entity implements Node
+class KeyValuePair implements Node
 {
+    use Utils;
+
     private $identifier;
-    private $indexes = [];
+    private $indexes;
     private $value;
-    private $attributes;
 
     public function __construct(TreeNode $ast)
     {
@@ -25,18 +26,12 @@ class Entity implements Node
         if ($indexAST->getId() === '#index') {
             $index = new Index($indexAST);
             $this->indexes = $index->expressions();
-
             $valueAST = array_shift($children);
         } else {
             $valueAST = $indexAST;
         }
 
         $this->value = new Value($valueAST);
-
-        $attributesAST = array_shift($children);
-        if ($attributesAST !== null) {
-            $this->attributes = new Attributes($attributesAST);
-        }
     }
 
     public function identifier()
@@ -52,18 +47,6 @@ class Entity implements Node
             return $value;
         }
 
-        $value = $value($this->indexes);
-
-        return $value();
-    }
-
-    public function __invoke(Catalog $catalog, Array $data)
-    {
-        return $this->evaluate($catalog, $data);
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
+        return $value($this->indexes);
     }
 }

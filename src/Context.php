@@ -126,7 +126,7 @@ class Context
             $entity = $catalog->getEntity($id);
 
             if ($entity !== null) {
-                return $entity($data);
+                return $entity($catalog, $data);
             }
         }
     }

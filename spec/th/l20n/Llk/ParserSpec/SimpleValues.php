@@ -118,13 +118,10 @@ L20N;
 >  >  #entity
 >  >  >  token(identifier, brandName23)
 >  >  >  #index
->  >  >  >  #conditional_expression
->  >  >  >  >  #logical_expression
->  >  >  >  >  >  #binary_expression
->  >  >  >  >  >  >  #unary_expression
->  >  >  >  >  >  >  >  #member_expression
->  >  >  >  >  >  >  >  >  #string
->  >  >  >  >  >  >  >  >  >  token(single_string:string, feminine)
+>  >  >  >  #expression
+>  >  >  >  >  #primary_expression
+>  >  >  >  >  >  #string
+>  >  >  >  >  >  >  token(single_string:string, feminine)
 >  >  >  #hash
 >  >  >  >  #hashItem
 >  >  >  >  >  token(identifier, masculine)
@@ -137,13 +134,10 @@ L20N;
 >  >  #entity
 >  >  >  token(identifier, brandName24)
 >  >  >  #index
->  >  >  >  #conditional_expression
->  >  >  >  >  #logical_expression
->  >  >  >  >  >  #binary_expression
->  >  >  >  >  >  >  #unary_expression
->  >  >  >  >  >  >  >  #member_expression
->  >  >  >  >  >  >  >  >  #string
->  >  >  >  >  >  >  >  >  >  token(single_string:string, neutral)
+>  >  >  >  #expression
+>  >  >  >  >  #primary_expression
+>  >  >  >  >  >  #string
+>  >  >  >  >  >  >  token(single_string:string, neutral)
 >  >  >  #hash
 >  >  >  >  #hashItem
 >  >  >  >  >  token(identifier, masculine)
@@ -156,20 +150,14 @@ L20N;
 >  >  #entity
 >  >  >  token(identifier, brandName25)
 >  >  >  #index
->  >  >  >  #conditional_expression
->  >  >  >  >  #logical_expression
->  >  >  >  >  >  #binary_expression
->  >  >  >  >  >  >  #unary_expression
->  >  >  >  >  >  >  >  #member_expression
->  >  >  >  >  >  >  >  >  #string
->  >  >  >  >  >  >  >  >  >  token(single_string:string, feminine)
->  >  >  >  #conditional_expression
->  >  >  >  >  #logical_expression
->  >  >  >  >  >  #binary_expression
->  >  >  >  >  >  >  #unary_expression
->  >  >  >  >  >  >  >  #member_expression
->  >  >  >  >  >  >  >  >  #string
->  >  >  >  >  >  >  >  >  >  token(single_string:string, foo)
+>  >  >  >  #expression
+>  >  >  >  >  #primary_expression
+>  >  >  >  >  >  #string
+>  >  >  >  >  >  >  token(single_string:string, feminine)
+>  >  >  >  #expression
+>  >  >  >  >  #primary_expression
+>  >  >  >  >  >  #string
+>  >  >  >  >  >  >  token(single_string:string, foo)
 >  >  >  #hash
 >  >  >  >  #hashItem
 >  >  >  >  >  token(identifier, masculine)

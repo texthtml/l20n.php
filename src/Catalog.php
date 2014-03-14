@@ -31,6 +31,11 @@ class Catalog
         return $entity;
     }
 
+    public function get($id, Array $data = [])
+    {
+        return $this->getEntity($id)->evaluate($this, $data);
+    }
+
     public function compile()
     {
         while (($resource = array_shift($this->resources)) !== null) {

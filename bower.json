@@ -1,0 +1,11 @@
+{
+  "name": "l20n.php",
+  "version": "0.0.0",
+  "authors": [
+    "Mathieu Rochette <mathieu@rochette.cc>"
+  ],
+  "license": "aGPLv3",
+  "dependencies": {
+    "lol-fixtures": "l20n/lol-fixtures"
+  }
+}
