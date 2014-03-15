@@ -40,8 +40,10 @@ class Expander implements Node
                     $value = $value();
                 }
             }
-        } catch (Error $e) {
-            $e->entity($context->this());
+        } catch (\Exception $e) {
+            if ($e instanceof Error) {
+                $e->entity($context->this());
+            }
 
             throw new ValueError($e->getMessage(), 0, $e);
         }
