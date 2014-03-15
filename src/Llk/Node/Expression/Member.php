@@ -3,8 +3,8 @@
 namespace th\l20n\Llk\Node\Expression;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class Member implements Node
 {
@@ -23,12 +23,12 @@ class Member implements Node
         }
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        $base = $this->base->evaluate($catalog, $data);
+        $base = $this->base->evaluate($context);
 
-        return array_reduce($this->parts, function ($base, $part) use ($catalog, $data) {
-            $value = $part->evaluate($catalog, $data);
+        return array_reduce($this->parts, function ($base, $part) use ($context) {
+            $value = $part->evaluate($context);
 
             return $value($base);
         }, $base);

@@ -3,8 +3,8 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class Attributes implements Node
 {
@@ -21,10 +21,10 @@ class Attributes implements Node
         }
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return function ($attributeName) use ($catalog, $data) {
-            return $this->attributes[$attributeName]->evaluate($catalog, $data);
+        return function ($attributeName) use ($context) {
+            return $this->attributes[$attributeName]->evaluate($context);
         };
     }
 }

@@ -3,9 +3,9 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
-use th\l20n\Llk\Node\Exception\IndexError;
+use th\l20n\Llk\Node\Error\IndexError;
 
 class Hash implements Node
 {
@@ -24,10 +24,10 @@ class Hash implements Node
         }
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return function (Array $defaultIndexes = null) use ($catalog, $data) {
-            return function (Array $requestedIndexes = null) use ($catalog, $data, $defaultIndexes) {
+        return function (Array $defaultIndexes = null) use ($context) {
+            return function (Array $requestedIndexes = null) use ($context, $defaultIndexes) {
                 $indexes = $defaultIndexes?:[];
                 if ($requestedIndexes !== null) {
                     $indexes = $requestedIndexes;
@@ -38,7 +38,7 @@ class Hash implements Node
                     $value = $this->default;
                 } else {
                     if ($index instanceof Node) {
-                        $index = $index->evaluate($catalog, $data);
+                        $index = $index->evaluate($context);
                     }
 
                     if (!array_key_exists($index, $this->items)) {
@@ -50,7 +50,7 @@ class Hash implements Node
                 if ($value === null) {
                     throw new IndexError('Hash key lookup failed.');
                 }
-                return $value->evaluate($catalog, $data);
+                return $value->evaluate($context);
             };
         };
     }

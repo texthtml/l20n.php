@@ -3,8 +3,8 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class String implements Node
 {
@@ -21,14 +21,14 @@ class String implements Node
         }, $ast->getChildren());
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return array_reduce($this->parts, function ($prefix, $part) use ($catalog, $data) {
+        return array_reduce($this->parts, function ($prefix, $part) use ($context) {
             if (is_string($part)) {
                 return $prefix.$part;
             }
 
-            return $prefix.$part->evaluate($catalog, $data);
+            return $prefix.$part->evaluate($context);
 
         }, '');
     }

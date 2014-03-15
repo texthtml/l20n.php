@@ -123,10 +123,11 @@ class Context
                 continue;
             }
 
-            $entity = $catalog->getEntity($id);
+            $entity = $catalog->entity($id);
 
             if ($entity !== null) {
-                return $entity($catalog, $data);
+                $context = new EntityContext($catalog, $entity, $data);
+                return $entity($context);
             }
         }
     }

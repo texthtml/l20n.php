@@ -3,9 +3,9 @@
 namespace th\l20n\Llk\Node\Expression;
 
 use Hoa\Compiler\Llk\TreeNode;
-use th\l20n\Llk\Node\Expression;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
+use th\l20n\Llk\Node\Expression;
 
 class Conditional implements Node
 {
@@ -29,18 +29,18 @@ class Conditional implements Node
         }
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        $condition = $this->condition->evaluate($catalog, $data);
+        $condition = $this->condition->evaluate($context);
 
         if ($this->left === null) {
             return $condition;
         }
 
         if ($condition) {
-            return $this->left->evaluate($catalog, $data);
+            return $this->left->evaluate($context);
         }
 
-        return $this->right->evaluate($catalog, $data);
+        return $this->right->evaluate($context);
     }
 }

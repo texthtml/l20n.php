@@ -6,6 +6,8 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use th\l20n\Llk\Parser;
 use th\l20n\Llk\Compiler;
+use th\l20n\Llk\Node\Error\IndexError;
+use th\l20n\Llk\Node\Error\ValueError;
 
 class CatalogSpec extends ObjectBehavior
 {
@@ -24,15 +26,15 @@ class CatalogSpec extends ObjectBehavior
 
     public function it_should_return_null_for_unknown_entities()
     {
-        $this->getEntity('foo')->shouldReturn(null);
+        $this->entity('foo')->shouldReturn(null);
         $this->addResource('<foo "Bar">');
-        $this->getEntity('taz')->shouldReturn(null);
+        $this->entity('taz')->shouldReturn(null);
     }
 
     public function it_should_return_known_entities()
     {
         $this->addResource('<foo "Bar">');
-        $this->getEntity('foo')->shouldNotReturn(null);
+        $this->entity('foo')->shouldNotReturn(null);
     }
 
     public function it_should_handle_simple_values()
@@ -41,15 +43,77 @@ class CatalogSpec extends ObjectBehavior
 
         $this->get('brandName')->shouldReturn('Firefox');
 
-        $this->shouldThrow('th\l20n\Llk\Node\Exception\IndexError')->duringGet('brandName21');
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandName21');
 
         $this->get('brandName22')->shouldReturn('Aurora');
 
         $this->get('brandName23')->shouldReturn('Aurora');
 
-        $this->shouldThrow('th\l20n\Llk\Node\Exception\IndexError')->duringGet('brandName24');
+        $this->shouldThrow(new IndexError('Hash key lookup failed (tried "neutral").'))->duringGet('brandName24');
 
         $this->get('brandName25')->shouldReturn('Aurora');
+    }
+
+    public function it_should_handle_attributes_basic_values()
+    {
+        $this->addResource(self::getResource('attributes'));
+
+        $this->get('brandName1')->shouldReturn('Firefox');
+
+        $this->get('about1')->shouldReturn('About Mozilla Firefox');
+
+        $this->get('brandName2')->shouldReturn('Firefox');
+
+        $this->get('about2')->shouldReturn('About Firefox on Windows');
+
+        $this->get('about2Win')->shouldReturn('About Firefox on Windows');
+
+        $this->get('about2Linux')->shouldReturn('About Firefox on Linux');
+    }
+
+    public function it_should_handle_attributes_relative_references()
+    {
+        $this->addResource(self::getResource('attributes'));
+
+        $this->get('brandName3')->shouldReturn('Firefox');
+
+        $this->get('about3')->shouldReturn('About Mozilla Firefox');
+
+        $this->get('brandName4')->shouldReturn('Firefox');
+
+        $this->get('about4')->shouldReturn('About Firefox on Windows');
+
+        $this->get('about4Win')->shouldReturn('About Firefox on Windows');
+
+        $this->get('about4Linux')->shouldReturn('About Firefox on Linux');
+
+        $this->get('brandName5')->shouldReturn('Firefox');
+
+        $this->get('brandName6')->shouldReturn('Firefox');
+
+        $this->get('brandName7')->shouldReturn('Mozilla Firefox');
+    }
+
+    public function it_should_handle_attributes_indexes()
+    {
+        $this->addResource(self::getResource('attributes'));
+
+        $this->get('brandName9')->shouldReturn('Firefox Beta');
+
+        $this->get('about9')->shouldReturn('About Firefox Beta');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about9Accesskey');
+    }
+
+    public function it_should_handle_attributes_cyclic_references()
+    {
+        $this->addResource(self::getResource('attributes'));
+
+        $this->get('brandName10')->shouldReturn('Firefox');
+
+        $this->get('about10')->shouldReturn('About Firefox on Windows');
+
+        $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about11');
     }
 
     public function it_should_handle_attr_and_indexes()
@@ -73,7 +137,7 @@ class CatalogSpec extends ObjectBehavior
 
     protected static function getResource($name)
     {
-        return function() use ($name) {
+        return function () use ($name) {
             return file_get_contents(__DIR__."/../../../bower_components/lol-fixtures/$name.lol");
         };
     }

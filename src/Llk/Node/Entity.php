@@ -3,10 +3,11 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\Entity as L20NEntity;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
-class Entity implements Node
+class Entity implements Node, L20NEntity
 {
     private $identifier;
     private $indexes = [];
@@ -44,22 +45,28 @@ class Entity implements Node
         return $this->identifier;
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        $value = $this->value->evaluate($catalog, $data);
+        try {
+            $value = $this->value->evaluate($context);
 
-        if (!is_callable($value)) {
-            return $value;
+            if (!is_callable($value)) {
+                return $value;
+            }
+
+            $value = $value($this->indexes);
+
+            return $value();
+        } catch (Error $e) {
+            $e->entity($this);
+
+            throw $e;
         }
-
-        $value = $value($this->indexes);
-
-        return $value();
     }
 
-    public function __invoke(Catalog $catalog, Array $data)
+    public function __invoke(EntityContext $context)
     {
-        return $this->evaluate($catalog, $data);
+        return $this->evaluate($context);
     }
 
     public function getAttributes()

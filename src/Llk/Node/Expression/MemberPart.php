@@ -3,11 +3,11 @@
 namespace th\l20n\Llk\Node\Expression;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
+use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Utils;
 use th\l20n\Llk\Node\Token;
 use th\l20n\Llk\Node\Value;
-use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class MemberPart implements Node
 {
@@ -25,8 +25,8 @@ class MemberPart implements Node
         $this->memberPart = $this->build($ast);
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return $this->memberPart->evaluate($catalog, $data);
+        return $this->memberPart->evaluate($context);
     }
 }

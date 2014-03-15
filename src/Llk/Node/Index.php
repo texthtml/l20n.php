@@ -3,8 +3,8 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class Index implements Node
 {
@@ -24,7 +24,7 @@ class Index implements Node
         return $this->expressions;
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
         notimplemented();
     }

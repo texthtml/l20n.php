@@ -3,8 +3,8 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class HashItem implements Node
 {
@@ -46,8 +46,8 @@ class HashItem implements Node
         return $this->identifier;
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return $this->value->evaluate($catalog, $data);
+        return $this->value->evaluate($context);
     }
 }

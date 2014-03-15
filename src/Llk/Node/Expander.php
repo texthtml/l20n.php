@@ -3,9 +3,11 @@
 namespace th\l20n\Llk\Node;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Entity;
-use th\l20n\Catalog;
+use th\l20n\Llk\Node\Error;
+use th\l20n\Llk\Node\Error\ValueError;
 
 class Expander implements Node
 {
@@ -16,18 +18,38 @@ class Expander implements Node
         $this->expression = new Expression($ast->getChild(0));
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        $value = $this->expression->evaluate($catalog, $data);
-
-        if (!is_callable($value)) {
-            return $value;
+        static $recursionCheck = [];
+        $hash = spl_object_hash($this);
+        if (array_key_exists($hash, $recursionCheck)) {
+            throw new ValueError('Cyclic reference detected.');
         }
 
-        if ($value instanceof Entity) {
-            return $value($catalog, $data);
+        $recursionCheck[$hash] = null;
+        $currentEntity = $context->this;
+
+        try {
+            $value = $this->expression->evaluate($context);
+
+            if (is_callable($value)) {
+                if ($value instanceof Entity) {
+                    $value = $value($context);
+                } else {
+                    $value = $value();
+                }
+            }
+        } catch (Error $e) {
+            $e->entity($context->this);
+
+            $e = new ValueError($e->getMessage(), 0, $e);
+
+            throw $e;
         }
 
-        return $value();
+        unset($recursionCheck[$hash]);
+        $context->pop();
+
+        return $value;
     }
 }

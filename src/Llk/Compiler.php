@@ -37,7 +37,7 @@ class Compiler implements l20nCompiler
         return [];
     }
 
-    public function getEntity($identifier)
+    public function entity($identifier)
     {
         if (array_key_exists($identifier, $this->entities)) {
             return $this->entities[$identifier];

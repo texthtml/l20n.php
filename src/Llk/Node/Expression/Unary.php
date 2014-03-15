@@ -3,9 +3,9 @@
 namespace th\l20n\Llk\Node\Expression;
 
 use Hoa\Compiler\Llk\TreeNode;
-use th\l20n\Llk\Node\Token;
+use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
-use th\l20n\Catalog;
+use th\l20n\Llk\Node\Token;
 
 class Unary implements Node
 {
@@ -30,9 +30,9 @@ class Unary implements Node
         $this->member = new Member($memberAST);
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        $member = $this->member->evaluate($catalog, $data);
+        $member = $this->member->evaluate($context);
 
         if ($this->operator === null) {
             return $member;

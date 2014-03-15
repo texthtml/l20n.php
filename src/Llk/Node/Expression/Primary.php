@@ -3,11 +3,11 @@
 namespace th\l20n\Llk\Node\Expression;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
+use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\String;
 use th\l20n\Llk\Node\Utils;
 use th\l20n\Llk\Node\Expression;
-use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class Primary implements Node
 {
@@ -25,8 +25,8 @@ class Primary implements Node
         $this->value = $this->build($ast->getChild(0));
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return $this->value->evaluate($catalog, $data);
+        return $this->value->evaluate($context);
     }
 }

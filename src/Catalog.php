@@ -9,6 +9,8 @@ class Catalog
 
     private $resources = [];
 
+    public $contextEntity;
+
     public function __construct(Parser $parser, Compiler $compiler)
     {
         $this->parser   = $parser;
@@ -20,12 +22,12 @@ class Catalog
         $this->resources[] = $resource;
     }
 
-    public function getEntity($id)
+    public function entity($id)
     {
-        $entity = $this->compiler->getEntity($id);
+        $entity = $this->compiler->entity($id);
         if ($entity === null) {
             $this->compile();
-            $entity = $this->compiler->getEntity($id);
+            $entity = $this->compiler->entity($id);
         }
 
         return $entity;
@@ -33,7 +35,13 @@ class Catalog
 
     public function get($id, Array $data = [])
     {
-        return $this->getEntity($id)->evaluate($this, $data);
+        $entity = $this->entity($id);
+
+        $context = new EntityContext($this, $entity, $data);
+
+        $context->this = $entity;
+
+        return $entity->evaluate($context, $data);
     }
 
     public function compile()

@@ -3,15 +3,16 @@
 namespace th\l20n\Llk\Node\Expression;
 
 use Hoa\Compiler\Llk\TreeNode;
+use th\l20n\EntityContext;
+use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Utils;
 use th\l20n\Llk\Node\Token;
-use th\l20n\Llk\Node;
-use th\l20n\Catalog;
 
 class Identifier implements Node
 {
     use Utils;
 
+    private $type;
     private $identifier;
 
     private static $idToClassName = [
@@ -20,11 +21,18 @@ class Identifier implements Node
 
     public function __construct(TreeNode $ast)
     {
-        $this->identifier = $this->build($ast->getChild(0))->value();
+        $token = $this->build($ast->getChild(0));
+
+        $this->type       = $token->name();
+        $this->identifier = $token->value();
     }
 
-    public function evaluate(Catalog $catalog, Array $data)
+    public function evaluate(EntityContext $context)
     {
-        return $catalog->getEntity($this->identifier);
+        if ($this->type !== 'this') {
+            $context->push($context->catalog()->entity($this->identifier));
+        }
+
+        return $context->this();
     }
 }

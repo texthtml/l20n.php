@@ -6,5 +6,5 @@ interface Compiler
 {
     public function compile($ast);
 
-    public function getEntity($id);
+    public function entity($id);
 }
