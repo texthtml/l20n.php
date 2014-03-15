@@ -41,11 +41,9 @@ class Expander implements Node
                 }
             }
         } catch (Error $e) {
-            $e->entity($context->this);
+            $e->entity($context->this());
 
-            $e = new ValueError($e->getMessage(), 0, $e);
-
-            throw $e;
+            throw new ValueError($e->getMessage(), 0, $e);
         }
 
         $context->expanders->detach($this);
