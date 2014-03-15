@@ -20,15 +20,15 @@ class Expander implements Node
 
     public function evaluate(EntityContext $context)
     {
-        if (!isset($context->expanders)) {
-            $context->expanders = new \SplObjectStorage;
+        if (!isset($context->bag->expanders)) {
+            $context->bag->expanders = new \SplObjectStorage;
         }
 
-        if ($context->expanders->contains($this)) {
+        if ($context->bag->expanders->contains($this)) {
             throw new ValueError('Cyclic reference detected.');
         }
 
-        $context->expanders->attach($this);
+        $context->bag->expanders->attach($this);
 
         try {
             $value = $this->expression->evaluate($context);
@@ -46,7 +46,7 @@ class Expander implements Node
             throw new ValueError($e->getMessage(), 0, $e);
         }
 
-        $context->expanders->detach($this);
+        $context->bag->expanders->detach($this);
         $context->pop();
 
         return $value;
