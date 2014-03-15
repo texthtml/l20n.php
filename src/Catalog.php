@@ -39,8 +39,6 @@ class Catalog
 
         $context = new EntityContext($this, $entity, $data);
 
-        $context->this = $entity;
-
         return $entity->evaluate($context, $data);
     }
 
