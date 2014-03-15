@@ -20,14 +20,15 @@ class Expander implements Node
 
     public function evaluate(EntityContext $context)
     {
-        static $recursionCheck = [];
-        $hash = spl_object_hash($this);
-        if (array_key_exists($hash, $recursionCheck)) {
+        if (!isset($context->expanders)) {
+            $context->expanders = new \SplObjectStorage;
+        }
+
+        if ($context->expanders->contains($this)) {
             throw new ValueError('Cyclic reference detected.');
         }
 
-        $recursionCheck[$hash] = null;
-        $currentEntity = $context->this;
+        $context->expanders->attach($this);
 
         try {
             $value = $this->expression->evaluate($context);
@@ -47,7 +48,7 @@ class Expander implements Node
             throw $e;
         }
 
-        unset($recursionCheck[$hash]);
+        $context->expanders->detach($this);
         $context->pop();
 
         return $value;
