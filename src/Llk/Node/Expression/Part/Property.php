@@ -8,26 +8,39 @@ use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Utils;
 use th\l20n\Llk\Node\Token;
 use th\l20n\Llk\Node\Value;
+use th\l20n\Llk\Node\Expression;
+use th\l20n\Llk\Node\Entity;
 
 class Property implements Node
 {
     use Utils;
 
-    private $attributeName;
+    private $propertyName;
 
     private static $idToClassName = [
-        'token' => 'Token'
+        '#expression' => 'Expression',
+        'token'       => 'Token',
     ];
 
     public function __construct(TreeNode $ast)
     {
-        $this->attributeName = $this->build($ast->getChild(0))->value();
+        $this->propertyName = $this->build($ast->getChild(0));
+
+        if ($this->propertyName instanceof Token) {
+            $this->propertyName = $this->propertyName->value();
+        }
     }
 
     public function evaluate(EntityContext $context)
     {
         return function ($hash) use ($context) {
-            return $hash([$this->attributeName]);
+            $propertyName = $this->propertyName;
+
+            if ($propertyName instanceof Expression) {
+                $propertyName = $this->propertyName->evaluate($context);
+            }
+
+            return $hash($propertyName);
         };
     }
 }

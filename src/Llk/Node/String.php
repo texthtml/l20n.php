@@ -5,6 +5,7 @@ namespace th\l20n\Llk\Node;
 use Hoa\Compiler\Llk\TreeNode;
 use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
+use th\l20n\Llk\Node\Error\ValueError;
 
 class String implements Node
 {
@@ -28,7 +29,13 @@ class String implements Node
                 return $prefix.$part;
             }
 
-            return $prefix.$part->evaluate($context);
+            try {
+                $suffix = $part->evaluate($context);
+
+                return $prefix.$suffix;
+            } catch (\Exception $e) {
+                throw new ValueError($e->getMessage(), 0, $e);
+            }
 
         }, '');
     }

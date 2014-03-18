@@ -11,7 +11,7 @@ class KeyValuePair implements Node
     use Utils;
 
     private $identifier;
-    private $indexes;
+    private $indexes = [];
     private $value;
 
     public function __construct(TreeNode $ast)
@@ -41,12 +41,23 @@ class KeyValuePair implements Node
 
     public function evaluate(EntityContext $context)
     {
-        $value = $this->value->evaluate($context);
+        return function ($index = null) use ($context) {
+            $value = $this->value->evaluate($context);
 
-        if (!is_callable($value)) {
+            if (!is_callable($value)) {
+                return $value;
+            }
+
+            if ($index !== null) {
+                $value = $value($index);
+            }
+
+            $indexes = $this->indexes;
+            while (is_callable($value)) {
+                $value = $value(array_shift($indexes));
+            }
+
             return $value;
-        }
-
-        return $value($this->indexes);
+        };
     }
 }

@@ -26,32 +26,28 @@ class Hash implements Node
 
     public function evaluate(EntityContext $context)
     {
-        return function (Array $defaultIndexes = null) use ($context) {
-            return function (Array $requestedIndexes = null) use ($context, $defaultIndexes) {
-                $indexes = $defaultIndexes?:[];
-                if ($requestedIndexes !== null) {
-                    $indexes = $requestedIndexes;
-                }
-                $index = array_shift($indexes);
-
-                if ($index === null) {
-                    $value = $this->default;
-                } else {
-                    if ($index instanceof Node) {
-                        $index = $index->evaluate($context);
-                    }
-
-                    if (!array_key_exists($index, $this->items)) {
-                        throw new IndexError('Hash key lookup failed (tried "'.$index.'").');
-                    }
-                    $value = $this->items[$index];
+        return function ($index = null) use ($context) {
+            if ($index === null) {
+                $value = $this->default;
+            } else {
+                if ($index instanceof Node) {
+                    $index = $index->evaluate($context);
                 }
 
-                if ($value === null) {
+                if (!is_string($index)) {
                     throw new IndexError('Hash key lookup failed.');
+                } elseif (!array_key_exists($index, $this->items)) {
+                    throw new IndexError('Hash key lookup failed (tried "'.$index.'").');
                 }
-                return $value->evaluate($context);
-            };
+
+                $value = $this->items[$index];
+            }
+
+            if ($value === null) {
+                throw new IndexError('Hash key lookup failed.');
+            }
+
+            return $value->evaluate($context);
         };
     }
 }

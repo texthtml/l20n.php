@@ -47,30 +47,39 @@ class Entity implements Node, L20NEntity
 
     public function evaluate(EntityContext $context)
     {
-        try {
-            $value = $this->value->evaluate($context);
-
-            if (!is_callable($value)) {
-                return $value;
+        return function ($index = null) use ($context) {
+            if ($index === false) {
+                return $this->attributes;
             }
 
-            $value = $value($this->indexes);
+            try {
+                $value = $this->value->evaluate($context);
 
-            return $value();
-        } catch (Error $e) {
-            $e->entity($this);
+                if (!is_callable($value)) {
+                    return $value;
+                }
 
-            throw $e;
-        }
+                if ($index !== null) {
+                    return $value($index);
+                }
+
+                $indexes = $this->indexes;
+                while (is_callable($value)) {
+                    $value = $value(array_shift($indexes));
+                }
+
+                return $value;
+            } catch (Error $e) {
+                $e->entity($this);
+
+                throw $e;
+            }
+        };
     }
 
     public function __invoke(EntityContext $context)
     {
-        return $this->evaluate($context);
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
+        $value = $this->evaluate($context);
+        return $value();
     }
 }

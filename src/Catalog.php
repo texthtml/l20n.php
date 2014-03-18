@@ -39,7 +39,7 @@ class Catalog
 
         $context = new EntityContext($this, $entity, $data);
 
-        return $entity->evaluate($context, $data);
+        return $entity($context);
     }
 
     public function compile()

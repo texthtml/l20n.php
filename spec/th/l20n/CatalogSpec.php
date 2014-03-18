@@ -135,6 +135,49 @@ class CatalogSpec extends ObjectBehavior
         $this->get('about8Accesskey')->shouldReturn('Press A');
     }
 
+    public function it_should_handle_complex_strings()
+    {
+        $this->addResource(self::getResource('complex_strings'));
+
+        $this->get('brandName')->shouldReturn('Firefox');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandNameHash');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandNameDeep');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('channels');
+
+        $this->get('about1')->shouldReturn('About Firefox');
+
+        $this->get('about2')->shouldReturn('About Firefox');
+
+        $this->get('about3')->shouldReturn('About Aurora');
+
+        $this->get('about4')->shouldReturn('About Firefox');
+
+        $this->get('about5')->shouldReturn('About Aurora');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about21');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about22');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about23');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about24');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about25');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about26');
+
+        $this->get('about27')->shouldReturn('About Mozilla Aurora\'s');
+
+        $this->shouldThrow(new ValueError('Hash key lookup failed.'))->duringGet('about31');
+
+        $this->get('about32')->shouldReturn('About Aurora');
+
+        $this->get('about33')->shouldReturn('About Aurora');
+    }
+
     protected static function getResource($name)
     {
         return function () use ($name) {

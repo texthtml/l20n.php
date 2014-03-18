@@ -27,8 +27,8 @@ class Attr implements Node
 
     public function evaluate(EntityContext $context)
     {
-        return function (Entity $entity) use ($context) {
-            $attributes = $entity->getAttributes()->evaluate($context);
+        return function ($entity) use ($context) {
+            $attributes = $entity(false)->evaluate($context);
 
             return $attributes($this->attributeName);
         };

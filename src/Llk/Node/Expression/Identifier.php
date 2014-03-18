@@ -33,6 +33,6 @@ class Identifier implements Node
             $context->push($context->catalog()->entity($this->identifier));
         }
 
-        return $context->this();
+        return $context->this()->evaluate($context);
     }
 }
