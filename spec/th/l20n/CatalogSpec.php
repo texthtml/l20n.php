@@ -161,6 +161,47 @@ class CatalogSpec extends ObjectBehavior
         $this->get('about33')->shouldReturn('About Aurora');
     }
 
+    public function it_should_handle_complex_cyclic_strings()
+    {
+        $this->addResource(self::getResource('complex_strings_cyclic'));
+
+        $this->get('orgName')->shouldReturn('Mozilla');
+
+        $this->get('brandName1')->shouldReturn('Mozilla Firefox');
+
+        $this->get('about1')->shouldReturn('About Mozilla Firefox');
+
+        $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('brandName2');
+
+        $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about2');
+
+        $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about3');
+
+        $this->get('brandName41')->shouldReturn('Firefox');
+
+        $this->get('about41')->shouldReturn('About Firefox');
+
+        $this->get('brandName42')->shouldReturn('Firefox');
+
+        $this->get('about42')->shouldReturn('About Firefox');
+
+        $this->get('brandName43')->shouldReturn('Firefox');
+
+        $this->get('about43')->shouldReturn('About Firefox');
+
+        $this->get('brandName44')->shouldReturn('Firefox');
+
+        $this->get('about44')->shouldReturn('About Firefox');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandName51');
+
+        $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about51');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandName52');
+
+        $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about52');
+    }
+
     public function it_should_handle_simple_values()
     {
         $this->addResource(self::getResource('simple_values'));
