@@ -37,21 +37,23 @@ class CatalogSpec extends ObjectBehavior
         $this->entity('foo')->shouldNotReturn(null);
     }
 
-    public function it_should_handle_simple_values()
+    public function it_should_handle_attr_and_indexes()
     {
-        $this->addResource(self::getResource('simple_values'));
+        $this->addResource(self::getResource('attr-indexes'));
 
-        $this->get('brandName')->shouldReturn('Firefox');
+        $this->get('brandName7')->shouldReturn('Firefox');
 
-        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandName21');
+        $this->get('about7')->shouldReturn('About Firefox on Linux');
 
-        $this->get('brandName22')->shouldReturn('Aurora');
+        $this->get('about7Win')->shouldReturn('About Firefox on Windows');
 
-        $this->get('brandName23')->shouldReturn('Aurora');
+        $this->get('about7Linux')->shouldReturn('About Firefox on Linux');
 
-        $this->shouldThrow(new IndexError('Hash key lookup failed (tried "neutral").'))->duringGet('brandName24');
+        $this->get('brandName8')->shouldReturn('Firefox Beta');
 
-        $this->get('brandName25')->shouldReturn('Aurora');
+        $this->get('about8')->shouldReturn('About Firefox Beta');
+
+        $this->get('about8Accesskey')->shouldReturn('Press A');
     }
 
     public function it_should_handle_attributes_basic_values()
@@ -116,25 +118,6 @@ class CatalogSpec extends ObjectBehavior
         $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about11');
     }
 
-    public function it_should_handle_attr_and_indexes()
-    {
-        $this->addResource(self::getResource('attr-indexes'));
-
-        $this->get('brandName7')->shouldReturn('Firefox');
-
-        $this->get('about7')->shouldReturn('About Firefox on Linux');
-
-        $this->get('about7Win')->shouldReturn('About Firefox on Windows');
-
-        $this->get('about7Linux')->shouldReturn('About Firefox on Linux');
-
-        $this->get('brandName8')->shouldReturn('Firefox Beta');
-
-        $this->get('about8')->shouldReturn('About Firefox Beta');
-
-        $this->get('about8Accesskey')->shouldReturn('Press A');
-    }
-
     public function it_should_handle_complex_strings()
     {
         $this->addResource(self::getResource('complex_strings'));
@@ -176,6 +159,23 @@ class CatalogSpec extends ObjectBehavior
         $this->get('about32')->shouldReturn('About Aurora');
 
         $this->get('about33')->shouldReturn('About Aurora');
+    }
+
+    public function it_should_handle_simple_values()
+    {
+        $this->addResource(self::getResource('simple_values'));
+
+        $this->get('brandName')->shouldReturn('Firefox');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed.'))->duringGet('brandName21');
+
+        $this->get('brandName22')->shouldReturn('Aurora');
+
+        $this->get('brandName23')->shouldReturn('Aurora');
+
+        $this->shouldThrow(new IndexError('Hash key lookup failed (tried "neutral").'))->duringGet('brandName24');
+
+        $this->get('brandName25')->shouldReturn('Aurora');
     }
 
     protected static function getResource($name)
