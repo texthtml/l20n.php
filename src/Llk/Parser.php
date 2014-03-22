@@ -14,7 +14,7 @@ class Parser implements l20nParser
     public function ppCompiler()
     {
         if ($this->ppCompiler === null) {
-            $this->ppCompiler = LlkCompiler::load(new FileReader('lol.pp'));
+            $this->ppCompiler = LlkCompiler::load(new FileReader(__DIR__.'/l20n.pp'));
         }
 
         return $this->ppCompiler;
@@ -22,6 +22,6 @@ class Parser implements l20nParser
 
     public function parse($string)
     {
-        return $this->ppCompiler()->parse($string, 'lol');
+        return $this->ppCompiler()->parse($string, 'l20n');
     }
 }

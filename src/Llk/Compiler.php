@@ -19,8 +19,8 @@ class Compiler implements l20nCompiler
     {
         $id = $ast->getId();
 
-        if ($id !== '#lol') {
-            throw new \Exception("Error, unexpected '$id', expecting '#lol'", 1);
+        if ($id !== '#l20n') {
+            throw new \Exception("Error, unexpected '$id', expecting '#l20n'", 1);
         }
 
         foreach ($ast->getChildren() as $entry) {

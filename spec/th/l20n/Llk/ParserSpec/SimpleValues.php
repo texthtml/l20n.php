@@ -11,7 +11,7 @@ trait SimpleValues
 L20N;
         $this->parse($l20n)->shouldMatchThisAST(
 <<<AST
->  #lol
+>  #l20n
 >  >  #entity
 >  >  >  token(identifier, brandName)
 >  >  >  #string
@@ -28,7 +28,7 @@ AST
 L20N;
         $this->parse($l20n)->shouldMatchThisAST(
 <<<AST
->  #lol
+>  #l20n
 >  >  #entity
 >  >  >  token(identifier, brandName)
 >  >  >  #string
@@ -51,7 +51,7 @@ AST
 L20N;
         $this->parse($l20n)->shouldMatchThisAST(
 <<<AST
->  #lol
+>  #l20n
 >  >  #entity
 >  >  >  token(identifier, brandName21)
 >  >  >  #hash
@@ -77,7 +77,7 @@ AST
 L20N;
         $this->parse($l20n)->shouldMatchThisAST(
 <<<AST
->  #lol
+>  #l20n
 >  >  #entity
 >  >  >  token(identifier, brandName22)
 >  >  >  #hash
@@ -114,7 +114,7 @@ AST
 L20N;
         $this->parse($l20n)->shouldMatchThisAST(
 <<<AST
->  #lol
+>  #l20n
 >  >  #entity
 >  >  >  token(identifier, brandName23)
 >  >  >  #index

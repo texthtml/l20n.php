@@ -68,7 +68,7 @@
 
 
 
-#lol:
+#l20n:
     entry()*
 
 entry:
