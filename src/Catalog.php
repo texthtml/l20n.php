@@ -42,6 +42,17 @@ class Catalog
         return $entity($context);
     }
 
+    public function macro($id)
+    {
+        $macro = $this->compiler->macro($id);
+        if ($macro === null) {
+            $this->compile();
+            $macro = $this->compiler->macro($id);
+        }
+
+        return $macro;
+    }
+
     public function compile()
     {
         while (($resource = array_shift($this->resources)) !== null) {

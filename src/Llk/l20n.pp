@@ -23,8 +23,6 @@
 %token and           \&\&
 %token equal         ==
 %token not_equal     \!=
-%token less          \<
-%token more          \>
 %token less_or_equal \<=
 %token more_or_equal \>=
 %token plus          \+
@@ -72,7 +70,10 @@
     entry()*
 
 entry:
-    entity()
+    entity() | macro()
+
+#macro:
+    ::angle_:: <identifier> ::parenthesis_:: variable() (::comma:: variable() )* ::_parenthesis:: ::brace_:: expression() ::_brace:: ::_angle::
 
 #entity:
     ::angle_:: <identifier> index()? value() attributes()* ::_angle::
@@ -119,7 +120,7 @@ logical_expression:
     binary_expression() ( ( <or> | <and> ) logical_expression() #logical_expression )?
 
 binary_expression:
-    unary_expression() ( (<equal> | <not_equal> | <less> | <more> | <less_or_equal> | <more_or_equal> | <plus> | <minus> | <times> | <fraction> | <mod> ) binary_expression() #binary_expression )?
+    unary_expression() ( (<equal> | <not_equal> | <angle_> | <_angle> | <less_or_equal> | <more_or_equal> | <plus> | <minus> | <times> | <fraction> | <mod> ) binary_expression() #binary_expression )?
 
 unary_expression:
     ( ( <plus> | <minus> | <not> ) unary_expression() #unary_expression ) | member_expression()

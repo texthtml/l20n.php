@@ -8,6 +8,8 @@ use th\l20n\Llk\Node;
 
 class Member implements Node
 {
+    use Utils;
+
     private $base;
     private $parts = [];
 
@@ -16,10 +18,10 @@ class Member implements Node
         $children = $ast->getChildren();
 
         $parenthesisAST = array_shift($children);
-        $this->base = new Primary($parenthesisAST);
+        $this->base = $this->build($parenthesisAST);
 
         while (($partAST = array_shift($children)) !== null) {
-            $this->parts[] = new MemberPart($partAST);
+            $this->parts[] = $this->build($partAST);
         }
     }
 

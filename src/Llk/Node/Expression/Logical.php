@@ -9,6 +9,8 @@ use th\l20n\Llk\Node\Token;
 
 class Logical implements Node
 {
+    use Utils;
+
     private $operator;
     private $left;
     private $right;
@@ -18,7 +20,7 @@ class Logical implements Node
         $children = $ast->getChildren();
 
         $leftAST = array_shift($children);
-        $this->left = new Binary($leftAST);
+        $this->left = $this->build($leftAST);
 
         if (!empty($children)) {
             $operatorAST = array_shift($children);
@@ -27,7 +29,7 @@ class Logical implements Node
             $this->operator = $operatorToken->value();
 
             $rightAST = array_shift($children);
-            $this->right = new Logical($rightAST);
+            $this->right = $this->build($rightAST);
         }
     }
 

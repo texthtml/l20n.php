@@ -9,6 +9,7 @@ use Hoa\Compiler\Visitor\Dump as ASTDumper;
 class ParserSpec extends ObjectBehavior
 {
     use \spec\th\l20n\Llk\ParserSpec\SimpleValues;
+    use \spec\th\l20n\Llk\ParserSpec\Macros;
 
     public function it_is_initializable()
     {
@@ -20,19 +21,21 @@ class ParserSpec extends ObjectBehavior
         return [
             'matchThisAST' => function ($subject, $referenceAST) {
                 $dumper = new ASTDumper;
+
                 $AST = trim($dumper->visit($subject));
 
-                $match = $referenceAST === $AST;
-
-                if (!$match) {
-                    $diff = new \Diff(
-                        explode(PHP_EOL, $referenceAST),
-                        explode(PHP_EOL, $AST)
-                    );
-                    echo $diff->render(new \Diff_Renderer_Text_Unified);
+                if ($referenceAST === $AST) {
+                    return true;
                 }
 
-                return $match;
+                $diff = new \Diff(
+                    explode(PHP_EOL, $referenceAST),
+                    explode(PHP_EOL, $AST)
+                );
+
+                echo $diff->render(new \Diff_Renderer_Text_Unified);
+
+                return false;
             }
         ];
     }

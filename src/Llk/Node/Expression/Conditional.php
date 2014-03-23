@@ -9,6 +9,8 @@ use th\l20n\Llk\Node\Expression;
 
 class Conditional implements Node
 {
+    use Utils;
+
     private $condition;
     private $left;
     private $right;
@@ -18,14 +20,14 @@ class Conditional implements Node
         $children = $ast->getChildren();
 
         $logicalAST = array_shift($children);
-        $this->condition = new Logical($logicalAST);
+        $this->condition = $this->build($logicalAST);
 
         if (!empty($children)) {
             $leftAST = array_shift($children);
-            $this->left = new Expression($leftAST);
+            $this->left = $this->build($leftAST);
 
             $rightAST = array_shift($children);
-            $this->right = new Expression($rightAST);
+            $this->right = $this->build($rightAST);
         }
     }
 

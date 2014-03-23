@@ -6,9 +6,12 @@ use Hoa\Compiler\Llk\TreeNode;
 use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Token;
+use th\l20n\Llk\Node\Error\IndexError;
 
 class Binary implements Node
 {
+    use Utils;
+
     private $operator;
     private $left;
     private $right;
@@ -18,7 +21,7 @@ class Binary implements Node
         $children = $ast->getChildren();
 
         $leftAST = array_shift($children);
-        $this->left = new Unary($leftAST);
+        $this->left = $this->build($leftAST);
 
         if (!empty($children)) {
             $operatorAST = array_shift($children);
@@ -27,7 +30,7 @@ class Binary implements Node
             $this->operator = $operatorToken->value();
 
             $rightAST = array_shift($children);
-            $this->right = new Binary($rightAST);
+            $this->right = $this->build($rightAST);
         }
     }
 
@@ -42,6 +45,12 @@ class Binary implements Node
         $right = $this->right->evaluate($context);
 
         if ($this->operator === '==') {
+            if (
+                gettype($left) !== gettype($right) ||
+                !in_array(gettype($left), ['string', 'integer', 'double'])
+            ) {
+                throw new IndexError('The == operator takes two numbers or two strings.');
+            }
             return $left == $right;
         }
 

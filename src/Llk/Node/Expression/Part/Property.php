@@ -8,8 +8,9 @@ use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Utils;
 use th\l20n\Llk\Node\Token;
 use th\l20n\Llk\Node\Value;
-use th\l20n\Llk\Node\Expression;
 use th\l20n\Llk\Node\Entity;
+use th\l20n\Llk\Node\Expression;
+use th\l20n\Llk\Node\Error\ValueError;
 
 class Property implements Node
 {
@@ -33,14 +34,27 @@ class Property implements Node
 
     public function evaluate(EntityContext $context)
     {
-        return function ($hash) use ($context) {
+        return function ($obj) use ($context) {
             $propertyName = $this->propertyName;
 
             if ($propertyName instanceof Expression) {
                 $propertyName = $this->propertyName->evaluate($context);
             }
 
-            return $hash($propertyName);
+            if (is_callable($obj)) {
+                return $obj($propertyName);
+            }
+
+            if (is_array($obj)) {
+                return $obj[$propertyName];
+            }
+
+            if (is_object($obj)) {
+                return $obj->$propertyName;
+            }
+
+            $type = gettype($obj);
+            throw new ValueError("Cannot get property of a $type: $propertyName.");
         };
     }
 }

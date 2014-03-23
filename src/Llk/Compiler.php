@@ -4,11 +4,23 @@ namespace th\l20n\Llk;
 
 use th\l20n\Compiler as l20nCompiler;
 use th\l20n\Llk\Node\Entity;
+use th\l20n\Llk\Node\Macro;
+use th\l20n\Llk\Node\Utils;
 use Hoa\Compiler\Llk\TreeNode;
 
 class Compiler implements l20nCompiler
 {
+    use Utils;
+
+    private $expression;
+
+    private static $idToClassName = [
+        '#entity' => 'Entity',
+        '#macro'  => 'Macro',
+    ];
+
     private $entities = [];
+    private $macros = [];
 
     public function compile($ast)
     {
@@ -23,14 +35,15 @@ class Compiler implements l20nCompiler
             throw new \Exception("Error, unexpected '$id', expecting '#l20n'", 1);
         }
 
-        foreach ($ast->getChildren() as $entry) {
-            $id = $entry->getId();
+        foreach ($ast->getChildren() as $entryAST) {
+            $entry = $this->build($entryAST);
 
-            if ($id === '#entity') {
-                $entity = new Entity($entry);
-                $this->entities[$entity->identifier()] = $entity;
-            } else {
-                throw new \Exception("Error, unexpected '$id', expecting '#entity'", 1);
+            if ($entry instanceof Entity) {
+                $this->entities[$entry->identifier()] = $entry;
+            }
+
+            if ($entry instanceof Macro) {
+                $this->macros[$entry->identifier()] = $entry;
             }
         }
 
@@ -41,6 +54,13 @@ class Compiler implements l20nCompiler
     {
         if (array_key_exists($identifier, $this->entities)) {
             return $this->entities[$identifier];
+        }
+    }
+
+    public function macro($identifier)
+    {
+        if (array_key_exists($identifier, $this->macros)) {
+            return $this->macros[$identifier];
         }
     }
 }

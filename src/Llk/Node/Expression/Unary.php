@@ -9,6 +9,8 @@ use th\l20n\Llk\Node\Token;
 
 class Unary implements Node
 {
+    use Utils;
+
     private $operator;
     private $member;
 
@@ -27,7 +29,7 @@ class Unary implements Node
             $memberAST = $operatorAST;
         }
 
-        $this->member = new Member($memberAST);
+        $this->member = $this->build($memberAST);
     }
 
     public function evaluate(EntityContext $context)

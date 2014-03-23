@@ -32,8 +32,12 @@ class String implements Node
             try {
                 $suffix = $part->evaluate($context);
 
+                if (!in_array(gettype($suffix), ['integer', 'double', 'string'])) {
+                    $type = gettype($suffix);
+                    throw new ValueError("Cannot resolve ctxdata or global of type $type.");
+                }
                 return $prefix.$suffix;
-            } catch (\Exception $e) {
+            } catch (Error $e) {
                 throw new ValueError($e->getMessage(), 0, $e);
             }
 

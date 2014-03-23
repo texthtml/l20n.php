@@ -38,4 +38,11 @@ class EntityContext
     {
         return array_pop($this->stack);
     }
+
+    public function variable($name)
+    {
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+    }
 }

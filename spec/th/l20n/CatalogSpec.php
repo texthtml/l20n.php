@@ -202,6 +202,55 @@ class CatalogSpec extends ObjectBehavior
         $this->shouldThrow(new ValueError('Cyclic reference detected.'))->duringGet('about52');
     }
 
+    public function it_should_handle_context_data()
+    {
+        $this->addResource(self::getResource('ctxdata'));
+
+        $this->shouldThrow(new ValueError('Reference to an unknown variable: unreadNotifications.'))->duringGet('unread');
+
+        $this->shouldThrow(new IndexError('Reference to an unknown variable: unreadNotifications.'))->duringGet('unreadPlural');
+
+        $this->shouldThrow(new ValueError('Reference to an unknown variable: user.'))->duringGet('hello');
+
+        $this->shouldThrow(new ValueError('Reference to an unknown variable: user.'))->duringGet('helloLast');
+
+
+        $data = ['unreadNotifications' => '5'];
+
+        $this->get('unread', $data)->shouldReturn('Unread notifications: 5');
+
+        $this->shouldThrow(new IndexError('The == operator takes two numbers or two strings.'))->duringGet('unreadPlural', $data);
+
+
+        $data = ['unreadNotifications' => 1];
+
+        $this->get('unread', $data)->shouldReturn('Unread notifications: 1');
+
+        $this->get('unreadPlural', $data)->shouldReturn('One unread notification');
+
+
+        $data = ['unreadNotifications' => 4];
+
+        $this->get('unreadPlural', $data)->shouldReturn('4 unread notifications');
+
+        $data = ['user' => ['name' => 'Chuck Norris']];
+
+        $this->get('hello', $data)->shouldReturn('Hello Chuck Norris!');
+
+        $this->shouldThrow(new ValueError('Cannot get property of a string: last.'))->duringGet('helloLast', $data);
+
+
+        $data = ['user' => (object) ['name' => 'Chuck Norris']];
+
+        $this->get('hello', $data)->shouldReturn('Hello Chuck Norris!');
+
+        $data = ['user' => (object) ['name' => (object) ['first' => 'Chuck', 'last' => 'Norris']]];
+
+        $this->shouldThrow(new ValueError('Cannot resolve ctxdata or global of type object.'))->duringGet('hello', $data);
+
+        $this->get('helloLast', $data)->shouldReturn('Hello Mr. Norris!');
+    }
+
     public function it_should_handle_simple_values()
     {
         $this->addResource(self::getResource('simple_values'));
