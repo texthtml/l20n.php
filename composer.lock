@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "24f036eab3006f59fcd0ef1325372a9d",
+    "hash": "e4bafd0c7821ded78d9b666b45c888c9",
     "packages": [
         {
             "name": "hoa/compiler",
@@ -83,12 +83,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Core.git",
-                "reference": "267bcc79854a5ef052cacb0c22f17294595b44d5"
+                "reference": "79800d5f02b6fcd50a693154df8e547cde152eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Core/zipball/267bcc79854a5ef052cacb0c22f17294595b44d5",
-                "reference": "267bcc79854a5ef052cacb0c22f17294595b44d5",
+                "url": "https://api.github.com/repos/hoaproject/Core/zipball/79800d5f02b6fcd50a693154df8e547cde152eba",
+                "reference": "79800d5f02b6fcd50a693154df8e547cde152eba",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,7 @@
                 "parameter",
                 "protocol"
             ],
-            "time": "2014-02-24 14:40:58"
+            "time": "2014-03-12 20:01:43"
         },
         {
             "name": "hoa/file",
@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Iterator.git",
-                "reference": "896e89ce66dc6a6da478aa181cb87af57d4128c4"
+                "reference": "2feb83023a2b470e67b0cc44cfc38cd3c0ace4e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/896e89ce66dc6a6da478aa181cb87af57d4128c4",
-                "reference": "896e89ce66dc6a6da478aa181cb87af57d4128c4",
+                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/2feb83023a2b470e67b0cc44cfc38cd3c0ace4e7",
+                "reference": "2feb83023a2b470e67b0cc44cfc38cd3c0ace4e7",
                 "shasum": ""
             },
             "require": {
@@ -238,7 +238,7 @@
                 "iterator",
                 "library"
             ],
-            "time": "2014-02-18 10:34:07"
+            "time": "2014-03-14 18:10:46"
         },
         {
             "name": "hoa/math",
@@ -356,12 +356,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Visitor.git",
-                "reference": "6b82c7fdbeb7f7e1cd0bd75160de97ee706f1e95"
+                "reference": "c0d3139771ab715e8e35826c1e10cc6c6fc3a4b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Visitor/zipball/6b82c7fdbeb7f7e1cd0bd75160de97ee706f1e95",
-                "reference": "6b82c7fdbeb7f7e1cd0bd75160de97ee706f1e95",
+                "url": "https://api.github.com/repos/hoaproject/Visitor/zipball/c0d3139771ab715e8e35826c1e10cc6c6fc3a4b1",
+                "reference": "c0d3139771ab715e8e35826c1e10cc6c6fc3a4b1",
                 "shasum": ""
             },
             "require": {
@@ -395,7 +395,7 @@
                 "visit",
                 "visitor"
             ],
-            "time": "2014-01-07 11:03:25"
+            "time": "2014-03-14 15:44:28"
         }
     ],
     "packages-dev": [
@@ -406,12 +406,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Console.git",
-                "reference": "5f2fbfdea1e433b3625a3c70798b8d1050e73fea"
+                "reference": "ddf447cf052cabfbab0c00d56262ecf9bfcaf558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Console/zipball/5f2fbfdea1e433b3625a3c70798b8d1050e73fea",
-                "reference": "5f2fbfdea1e433b3625a3c70798b8d1050e73fea",
+                "url": "https://api.github.com/repos/hoaproject/Console/zipball/ddf447cf052cabfbab0c00d56262ecf9bfcaf558",
+                "reference": "ddf447cf052cabfbab0c00d56262ecf9bfcaf558",
                 "shasum": ""
             },
             "require": {
@@ -460,7 +460,7 @@
                 "readline",
                 "window"
             ],
-            "time": "2014-02-25 08:58:19"
+            "time": "2014-03-13 10:24:48"
         },
         {
             "name": "hoa/dispatcher",
@@ -619,12 +619,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "b1922e00de3010f46fb12b9e02ffa63f4c836946"
+                "reference": "66a7d3bf3165856b0635f9c2ea7590f00c4f017e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/b1922e00de3010f46fb12b9e02ffa63f4c836946",
-                "reference": "b1922e00de3010f46fb12b9e02ffa63f4c836946",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/66a7d3bf3165856b0635f9c2ea7590f00c4f017e",
+                "reference": "66a7d3bf3165856b0635f9c2ea7590f00c4f017e",
                 "shasum": ""
             },
             "require": {
@@ -660,7 +660,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2014-03-01 10:01:55"
+            "time": "2014-03-16 12:31:01"
         },
         {
             "name": "phpspec/php-diff",
@@ -701,12 +701,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "9f72dd2ea9f860572b7ce7f229e043e667f34564"
+                "reference": "5f3b795d37488439fc08ca6c7b33ec8fb28f643d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/9f72dd2ea9f860572b7ce7f229e043e667f34564",
-                "reference": "9f72dd2ea9f860572b7ce7f229e043e667f34564",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/5f3b795d37488439fc08ca6c7b33ec8fb28f643d",
+                "reference": "5f3b795d37488439fc08ca6c7b33ec8fb28f643d",
                 "shasum": ""
             },
             "require": {
@@ -766,7 +766,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2014-03-04 20:57:45"
+            "time": "2014-03-19 14:23:26"
         },
         {
             "name": "phpspec/prophecy",
@@ -774,12 +774,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "6bd3659919ae6472454aea07482200077293e75f"
+                "reference": "fc09f5a201c7f250bc3a487decef08be7d919683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/6bd3659919ae6472454aea07482200077293e75f",
-                "reference": "6bd3659919ae6472454aea07482200077293e75f",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/fc09f5a201c7f250bc3a487decef08be7d919683",
+                "reference": "fc09f5a201c7f250bc3a487decef08be7d919683",
                 "shasum": ""
             },
             "require": {
@@ -824,7 +824,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2014-02-18 21:47:37"
+            "time": "2014-03-10 16:35:29"
         },
         {
             "name": "symfony/console",
@@ -833,21 +833,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "563254c27e37efb65aae587286602ae6f5f18acd"
+                "reference": "ab9359cbf100259625c756b57c578eea15b3c464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/563254c27e37efb65aae587286602ae6f5f18acd",
-                "reference": "563254c27e37efb65aae587286602ae6f5f18acd",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/ab9359cbf100259625c756b57c578eea15b3c464",
+                "reference": "ab9359cbf100259625c756b57c578eea15b3c464",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
+                "psr/log": "~1.0",
                 "symfony/event-dispatcher": "~2.1"
             },
             "suggest": {
+                "psr/log": "For using the console logger",
                 "symfony/event-dispatcher": ""
             },
             "type": "library",
@@ -879,7 +881,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-03-03 13:53:19"
+            "time": "2014-03-19 15:49:37"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1042,9 +1044,9 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "phpspec/phpspec": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],

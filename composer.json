@@ -13,7 +13,7 @@
     },
     "license": "AGPL-3.0",
     "require-dev": {
-        "phpspec/phpspec": "~2.0@dev",
+        "phpspec/phpspec": "~2.0",
         "hoa/router": "*",
         "hoa/dispatcher": "*",
         "hoa/console": "*"
