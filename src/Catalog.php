@@ -6,15 +6,15 @@ class Catalog
 {
     private $parser;
     private $compiler;
+    private $globalsExpressions;
 
     private $resources = [];
 
-    public $contextEntity;
-
-    public function __construct(Parser $parser, Compiler $compiler)
+    public function __construct(Parser $parser, Compiler $compiler, Array $globalsExpressions)
     {
-        $this->parser   = $parser;
-        $this->compiler = $compiler;
+        $this->parser             = $parser;
+        $this->compiler           = $compiler;
+        $this->globalsExpressions = $globalsExpressions;
     }
 
     public function addResource($resource)
@@ -37,7 +37,7 @@ class Catalog
     {
         $entity = $this->entity($id);
 
-        $context = new EntityContext($this, $entity, $data);
+        $context = new EntityContext($this, $entity, $data, $this->globalsExpressions);
 
         return $entity($context);
     }
@@ -64,5 +64,10 @@ class Catalog
             $imports = $this->compiler->compile($ast);
             $this->resources = array_merge($this->resources, $imports);
         }
+    }
+
+    public function setGlobalExpression($name, callable $globalExpression)
+    {
+        $this->globalsExpressions[$name] = $globalExpression;
     }
 }

@@ -44,7 +44,7 @@ class Macro implements Node
                 $data[$variable->identifier()] = $parameters[$n];
             }
 
-            $macroContext = new EntityContext($context->catalog(), $context->this(), $data);
+            $macroContext = new EntityContext($context->catalog(), $context->this(), $data, $context->globalsExpressions());
 
             return $this->expression->evaluate($macroContext);
         };

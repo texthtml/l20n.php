@@ -4,15 +4,6 @@
 
 %token _expander \}\} -> __shift__
 
-%token angle_               <
-%token _angle               >
-%token bracket_             \[
-%token _bracket             ]
-%token parenthesis_         \(
-%token _parenthesis         \)
-%token brace_               \{
-%token _brace               \}
-
 %token default \*
 %token comma   ,
 %token colon   :
@@ -31,6 +22,15 @@
 %token fraction      \/
 %token mod           \%
 %token not           \!
+
+%token angle_               <
+%token _angle               >
+%token bracket_             \[
+%token _bracket             ]
+%token parenthesis_         \(
+%token _parenthesis         \)
+%token brace_               \{
+%token _brace               \}
 
 %token this     \~
 %token variable \$

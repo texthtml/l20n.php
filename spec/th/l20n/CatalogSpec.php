@@ -16,7 +16,7 @@ class CatalogSpec extends ObjectBehavior
         $parser   = new Parser;
         $compiler = new Compiler;
 
-        $this->beConstructedWith($parser, $compiler);
+        $this->beConstructedWith($parser, $compiler, []);
     }
 
     public function it_is_initializable()
@@ -249,6 +249,32 @@ class CatalogSpec extends ObjectBehavior
         $this->shouldThrow(new ValueError('Cannot resolve ctxdata or global of type object.'))->duringGet('hello', $data);
 
         $this->get('helloLast', $data)->shouldReturn('Hello Mr. Norris!');
+    }
+
+    public function it_should_handle_globals()
+    {
+        $this->addResource(self::getResource('globals'));
+
+        $this->setGlobalExpression('hour', function () {
+            return 8;
+        });
+
+        $this->get('theHourIs')->shouldReturn('It\'s 8');
+
+        $this->get('greeting')->shouldReturn('Good morning');
+
+
+        $this->setGlobalExpression('hour', function () {
+            return 18;
+        });
+
+        $this->get('theHourIs')->shouldReturn('It\'s 18');
+
+        $this->get('greeting')->shouldReturn('Good afternoon');
+
+        $this->shouldThrow(new ValueError('Reference to an unknown global: one.'))->duringGet('one');
+
+        $this->shouldThrow(new IndexError('Reference to an unknown global: one.'))->duringGet('whatIsIt');
     }
 
     public function it_should_handle_simple_values()

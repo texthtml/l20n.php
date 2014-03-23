@@ -2,6 +2,8 @@
 
 namespace th\l20n;
 
+use th\l20n\Globals\HourGlobal;
+
 class Context
 {
     private $defaultLocale = 'i-default';
@@ -12,17 +14,20 @@ class Context
     private $parser;
     private $compiler;
     private $localeNegotiator;
+    private $globalsExpressions;
 
     private $catalogues = [];
 
     public function __construct(
         Parser $parser = null,
         Compiler $compiler = null,
-        localeNegotiator $localeNegotiator = null
+        localeNegotiator $localeNegotiator = null,
+        Array $globalsExpressions = null
     ) {
-        $this->parser           = $parser;
-        $this->compiler         = $compiler;
-        $this->localeNegotiator = $localeNegotiator;
+        $this->parser             = $parser;
+        $this->compiler           = $compiler;
+        $this->localeNegotiator   = $localeNegotiator;
+        $this->globalsExpressions = $globalsExpressions ?: ['hour' => new HourGlobal];
     }
 
     public function supportedLocales()
@@ -89,7 +94,11 @@ class Context
     {
         foreach ($this->availableLocales as $availableLocale) {
             if (!array_key_exists($availableLocale, $this->catalogues)) {
-                $this->catalogues[$availableLocale] = new Catalog($this->parser(), $this->compiler());
+                $this->catalogues[$availableLocale] = new Catalog(
+                    $this->parser(),
+                    $this->compiler(),
+                    $this->globalsExpressions
+                );
             }
 
             if (is_string($resource)) {
@@ -126,7 +135,7 @@ class Context
             $entity = $catalog->entity($id);
 
             if ($entity !== null) {
-                $context = new EntityContext($catalog, $entity, $data);
+                $context = new EntityContext($catalog, $entity, $data, $this->globalsExpressions);
                 return $entity($context);
             }
         }

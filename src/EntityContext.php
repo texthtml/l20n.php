@@ -7,14 +7,16 @@ class EntityContext
     private $catalog;
     private $stack;
     private $data;
+    private $globalsExpressions;
     public $bag;
 
-    public function __construct(Catalog $catalog, Entity $entity, Array $data)
+    public function __construct(Catalog $catalog, Entity $entity, Array $data, Array $globalsExpressions)
     {
-        $this->catalog = $catalog;
-        $this->stack   = [];
-        $this->data    = $data;
-        $this->bag   = new \stdClass;
+        $this->catalog            = $catalog;
+        $this->stack              = [];
+        $this->data               = $data;
+        $this->bag                = new \stdClass;
+        $this->globalsExpressions = $globalsExpressions;
 
         $this->push($entity);
     }
@@ -44,5 +46,17 @@ class EntityContext
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
+    }
+
+    public function globalExpression($name)
+    {
+        if (array_key_exists($name, $this->globalsExpressions)) {
+            return $this->globalsExpressions[$name]();
+        }
+    }
+
+    public function globalsExpressions()
+    {
+        return $this->globalsExpressions;
     }
 }

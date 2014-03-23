@@ -17,8 +17,9 @@ class Identifier implements Node
     private $identifier;
 
     private static $idToClassName = [
-        'token'     => 'Token',
-        '#variable' => 'Variable',
+        'token'               => 'Token',
+        '#variable'           => 'Variable',
+        '#globals_expression' => 'GlobalsExpression',
     ];
 
     public function __construct(TreeNode $ast)
