@@ -277,6 +277,83 @@ class CatalogSpec extends ObjectBehavior
         $this->shouldThrow(new IndexError('Reference to an unknown global: one.'))->duringGet('whatIsIt');
     }
 
+    public function it_should_handle_macros()
+    {
+        $this->addResource(self::getResource('macros'));
+
+        $this->get('callDouble')->shouldReturn('6');
+
+        $this->get('callZero')->shouldReturn('0');
+
+        $this->get('callFib')->shouldReturn('6765');
+
+        $this->get('callFac')->shouldReturn('120');
+
+        $this->get('callPlural0')->shouldReturn('many');
+
+        $this->get('callPlural1')->shouldReturn('one');
+
+        $this->get('callPlural2')->shouldReturn('few');
+
+        $this->get('callPlural5')->shouldReturn('many');
+
+        $this->get('callPlural11')->shouldReturn('many');
+
+        $this->get('callPlural22')->shouldReturn('few');
+
+        $this->get('callPlural101')->shouldReturn('many');
+
+        $this->get('callPlural102')->shouldReturn('few');
+
+        $this->get('callPlural121')->shouldReturn('many');
+
+        $this->get('callPlural122')->shouldReturn('few');
+
+        $this->get('callPlural0')->shouldReturn('many');
+
+        $this->shouldThrow(new ValueError('The || operator takes two booleans.'))->duringGet('callZeroOrFac');
+
+        $this->get('callQuad')->shouldReturn('28');
+
+        $this->get('callCall')->shouldReturn('120');
+
+        $this->shouldThrow(new ValueError('Expected a macro, got a non-callable.'))->duringGet('callCallString');
+
+        $this->get('callGet')->shouldReturn('Firefox');
+
+        // $this->shouldThrow(new ValueError('Cannot get property of a string: nominative'))->duringGet('callGet1');
+
+        // $this->shouldThrow(new ValueError('Cannot get property of a string: genetive'))->duringGet('callGet2');
+
+        $this->get('callGetGenitive')->shouldReturn('Firefox\'s');
+
+        $this->get('brandName')->shouldReturn('Firefox');
+
+        $this->shouldThrow(new ValueError('getBrandName() takes exactly 1 argument(s) (0 given)'))->duringGet('callGetBrandName');
+
+        $this->get('callGetBrandNameCase')->shouldReturn('Firefox\'s');
+
+        $this->get('brandNameLength')->shouldReturn('Firefox');
+
+        $this->get('callGetBrandNameLength1')->shouldReturn('Mozilla Firefox');
+
+        // $this->shouldThrow(new ValueError('Cannot get property of a string: genetive'))->duringGet('callGetBrandNameLength2');
+
+        $this->get('callGetBrandNameLengthGenitive')->shouldReturn('Mozilla Firefox\'s');
+
+        $this->get('brandNameThis')->shouldReturn('Firefox');
+
+        $this->get('callGetBrandNameThisLength1')->shouldReturn('Mozilla Firefox');
+
+        // $this->shouldThrow(new ValueError('Cannot get property of a string: genetive'))->duringGet('callGetBrandNameThisLength2');
+
+        $this->get('callGetBrandNameThisGenitive')->shouldReturn('Mozilla Firefox\'s');
+
+        $this->get('callGetBrandNameThis1')->shouldReturn('Mozilla Firefox');
+
+        $this->get('callGetBrandNameThis2')->shouldReturn('Mozilla Firefox\'s');
+    }
+
     public function it_should_handle_simple_values()
     {
         $this->addResource(self::getResource('simple_values'));

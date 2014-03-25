@@ -119,10 +119,22 @@ logical_expression:
     binary_expression() ( ( <or> | <and> ) logical_expression() #logical_expression )?
 
 binary_expression:
-    unary_expression() ( (<equal> | <not_equal> | <angle_> | <_angle> | <less_or_equal> | <more_or_equal> | <plus> | <minus> | <times> | <fraction> | <mod> ) binary_expression() #binary_expression )?
+    binary_expression_1() ( (<equal> | <not_equal> ) binary_expression() #binary_expression )?
+
+binary_expression_1:
+    binary_expression_2() ( ( <angle_> | <_angle> | <less_or_equal> | <more_or_equal> ) binary_expression() #binary_expression )?
+
+binary_expression_2:
+    binary_expression_3() ( ( <plus> | <minus> ) binary_expression() #binary_expression )?
+
+binary_expression_3:
+    unary_expression() ( ( <times> | <fraction> | <mod> ) binary_expression() #binary_expression )?
 
 unary_expression:
-    ( ( <plus> | <minus> | <not> ) unary_expression() #unary_expression ) | member_expression()
+    ( ( <plus> | <minus> ) unary_expression_1() #unary_expression ) | member_expression()
+
+unary_expression_1:
+    ( <not> unary_expression() #unary_expression ) | member_expression()
 
 member_expression:
     parenthesis_expression() ( member_expression_part() #member_expression )*
@@ -131,7 +143,7 @@ member_expression_part:
     call_expression() | property_expression() | attr_expression()
 
 #call_expression:
-    ::parenthesis_:: expression() ( ::comma:: expression() )* ::_parenthesis::
+    ::parenthesis_:: ( expression() ( ::comma:: expression() )* )? ::_parenthesis::
 
 #property_expression:
     ::bracket_:: expression() ::_bracket:: | ::dot:: <identifier>

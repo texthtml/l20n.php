@@ -6,6 +6,7 @@ use Hoa\Compiler\Llk\TreeNode;
 use th\l20n\EntityContext;
 use th\l20n\Llk\Node;
 use th\l20n\Llk\Node\Token;
+use th\l20n\Llk\Node\Error\IndexError;
 
 class Logical implements Node
 {
@@ -36,6 +37,11 @@ class Logical implements Node
     public function evaluate(EntityContext $context)
     {
         $left = $this->left->evaluate($context);
+
+        if (gettype($left) !== 'boolean') {
+            throw new IndexError("The {$this->operator} operator takes two booleans.");
+        }
+
         if ($this->operator === null) {
             return $left;
         }
@@ -48,6 +54,12 @@ class Logical implements Node
             return false;
         }
 
-        return (bool) $this->right->evaluate($context);
+        $right = $this->right->evaluate($context);
+
+        if (gettype($right) !== 'boolean') {
+            throw new IndexError("The {$this->operator} operator takes two booleans.");
+        }
+
+        return $right;
     }
 }

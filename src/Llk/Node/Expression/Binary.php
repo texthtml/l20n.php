@@ -44,18 +44,23 @@ class Binary implements Node
 
         $right = $this->right->evaluate($context);
 
+        if (
+            gettype($left) !== gettype($right) ||
+            !in_array(gettype($left), ['string', 'integer', 'double'])
+        ) {
+            throw new IndexError("The {$this->operator} operator takes two numbers or two strings.");
+        }
+
         if ($this->operator === '==') {
-            if (
-                gettype($left) !== gettype($right) ||
-                !in_array(gettype($left), ['string', 'integer', 'double'])
-            ) {
-                throw new IndexError('The == operator takes two numbers or two strings.');
-            }
             return $left == $right;
         }
 
         if ($this->operator === '!=') {
             return $left != $right;
+        }
+
+        if (gettype($left) === 'string') {
+            throw new IndexError("The {$this->operator} operator takes two numbers.");
         }
 
         if ($this->operator === '<') {

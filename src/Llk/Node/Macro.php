@@ -38,7 +38,7 @@ class Macro implements Node
 
     public function evaluate(EntityContext $context)
     {
-        return function (Array $parameters) use ($context) {
+        return [$this->identifier, function (Array $parameters) use ($context) {
             $data = [];
             foreach ($this->variables as $n => $variable) {
                 $data[$variable->identifier()] = $parameters[$n];
@@ -47,6 +47,6 @@ class Macro implements Node
             $macroContext = new EntityContext($context->catalog(), $context->this(), $data, $context->globalsExpressions());
 
             return $this->expression->evaluate($macroContext);
-        };
+        }];
     }
 }

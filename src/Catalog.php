@@ -37,6 +37,10 @@ class Catalog
     {
         $entity = $this->entity($id);
 
+        if ($entity === null) {
+            return null;
+        }
+
         $context = new EntityContext($this, $entity, $data, $this->globalsExpressions);
 
         return $entity($context);
