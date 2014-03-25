@@ -86,7 +86,7 @@ L20N;
 >  >  >  >  >  #string
 >  >  >  >  >  >  token(double_string:string, Firefox)
 >  >  >  >  #hashItem
->  >  >  >  >  token(default, *)
+>  >  >  >  >  token(times, *)
 >  >  >  >  >  token(identifier, feminine)
 >  >  >  >  >  #string
 >  >  >  >  >  >  token(double_string:string, Aurora)

@@ -4,7 +4,6 @@
 
 %token _expander \}\} -> __shift__
 
-%token default \*
 %token comma   ,
 %token colon   :
 %token dot     \.
@@ -102,7 +101,7 @@ _quote:
     ::brace_:: hashItem() ( ::comma:: hashItem() )* ::comma::? ::_brace::
 
 #hashItem:
-    <default>? <identifier> ::colon:: value()
+    <times>? <identifier> ::colon:: value()
 
 #attributes:
     keyValuePair()+

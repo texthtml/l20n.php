@@ -21,7 +21,7 @@ class HashItem implements Node
         $defaultAst = array_shift($children);
         $defaultToken = new Token($defaultAst);
 
-        if ($defaultToken->name() === 'default') {
+        if ($defaultToken->name() === 'times') {
             $this->default = true;
 
             $identifierAST = array_shift($children);
