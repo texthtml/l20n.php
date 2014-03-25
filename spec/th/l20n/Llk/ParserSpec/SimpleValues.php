@@ -20,6 +20,47 @@ AST
         );
     }
 
+    public function it_can_parse_all_types_of_strings()
+    {
+        $l20n = <<<L20N
+<brandName 'Firefox'>
+L20N;
+        $this->parse($l20n)->shouldMatchThisAST(
+<<<AST
+>  #l20n
+>  >  #entity
+>  >  >  token(identifier, brandName)
+>  >  >  #string
+>  >  >  >  token(single_string:string, Firefox)
+AST
+        );
+
+        $l20n = <<<L20N
+<brandName """Firefox""">
+L20N;
+        $this->parse($l20n)->shouldMatchThisAST(
+<<<AST
+>  #l20n
+>  >  #entity
+>  >  >  token(identifier, brandName)
+>  >  >  #string
+>  >  >  >  token(tripledouble_string:string, Firefox)
+AST
+        );
+        $l20n = <<<L20N
+<brandName '''Firefox'''>
+L20N;
+        $this->parse($l20n)->shouldMatchThisAST(
+<<<AST
+>  #l20n
+>  >  #entity
+>  >  >  token(identifier, brandName)
+>  >  >  #string
+>  >  >  >  token(triplesingle_string:string, Firefox)
+AST
+        );
+    }
+
     public function it_can_parse_multiple_entities_at_once()
     {
         $l20n = <<<L20N

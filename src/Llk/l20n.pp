@@ -37,6 +37,18 @@
 
 %token literal \-?(0|[1-9]\d*)(\.\d+)?([eE][\+\-]?\d+)?
 
+%token tripledoublequote_                      """       -> tripledouble_string
+%token tripledouble_string:_tripledoublequote  """       -> __shift__
+%token tripledouble_string:expander_           \{\{      -> default
+%token tripledouble_string:escaped             \\(['"\\]|\{\{)
+%token tripledouble_string:string              [^"\\]+
+
+%token triplesinglequote_                      '''       -> triplesingle_string
+%token triplesingle_string:_triplesinglequote  '''       -> __shift__
+%token triplesingle_string:expander_           \{\{      -> default
+%token triplesingle_string:escaped             \\(['"\\]|\{\{)
+%token triplesingle_string:string              [^'\\]+
+
 %token singlequote_                '                           -> single_string
 %token single_string:_singlequote  '                           -> __shift__
 %token single_string:expander_     \{\{                        -> default
@@ -48,18 +60,6 @@
 %token double_string:expander_     \{\{                        -> default
 %token double_string:escaped       \\(['"\\]|\{\{)
 %token double_string:string        ([^"\\\{]|\{[^"\\\{])+
-
-%token tripledoublequote_                      """       -> tripledouble_string
-%token tripledouble_string:_tripledoublequote  """       -> __shift__
-%token tripledouble_string:expander_           \{\{      -> default
-%token tripledouble_string:escaped             \\(['"\\]|\{\{)
-%token tripledouble_string:string              [^"\\]+
-
-%token triplesinglequote_                      '         -> triplesingle_string
-%token triplesingle_string:_triplesinglequote  '         -> __shift__
-%token triplesingle_string:expander_           \{\{      -> default
-%token triplesingle_string:escaped             \\(['"\\]|\{\{)
-%token triplesingle_string:string              [^'\\]+
 
 %token identifier      [_a-zA-Z]\w*
 
