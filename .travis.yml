@@ -3,6 +3,7 @@ language: php
 php: [5.4, 5.5]
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - npm install -g bower
   - bower install -f
   - composer install -n
