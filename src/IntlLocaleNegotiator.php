@@ -13,7 +13,7 @@ class IntlLocaleNegotiator implements LocaleNegotiator
 
         foreach ($requestedLocales as $requestedLocale) {
             $validLocales += array_filter($availableLocales, function ($availableLocale) use ($requestedLocale) {
-                return locale_filter_matches($availableLocale, $requestedLocale);
+                return \locale_filter_matches($availableLocale, $requestedLocale);
             });
         }
 
